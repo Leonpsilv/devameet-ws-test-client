@@ -1,6 +1,5 @@
 
-export const UserPosition = ({ position, videoRef }) => {
-    console.log(position);
+export const UserPosition = ({ position, videoRef}) => {
     return (
         <div className="container-position">
             <div className="position">

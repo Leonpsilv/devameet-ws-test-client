@@ -78,6 +78,7 @@ class PeerConnectionSession {
     joinRoom(data) {
         this._room = data.link;
         this._userId = data.user;
+        console.log(this._userId + ' join in room')
         this.socket.emit('join', { link: this._room, userId: this._userId });
     }
 
@@ -103,6 +104,10 @@ class PeerConnectionSession {
         this.socket.emit('move', data);
     }
 
+    updateUserMovementChallenge(data) {
+        this.socket.emit('move-challenge', data);
+    }
+
     updateUserMute(data) {
         this.socket.emit('toggl-mute-user', data);
     }
@@ -117,7 +122,7 @@ class PeerConnectionSession {
 }
 
 export const createPeerConnectionContext = () => {
-    const socket = io('http://localhost:3333');
+    const socket = io('http://localhost:8000');
 
     return new PeerConnectionSession(socket);
 };

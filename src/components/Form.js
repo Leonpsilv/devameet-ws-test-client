@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export const Form = ({setData}) => {
 
-    const [link, setLink] = useState('');
+    const [link, setLink] = useState('nzx-toet-luy');
     const [user, setUser] = useState('');
 
     const createRoom = () =>{

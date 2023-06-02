@@ -13,8 +13,6 @@ export const Room = ({ data }) => {
     const myPosition = connectedUsers.find(e => e.user === data.user);
     const others = connectedUsers.filter(e => e.user !== data.user);
 
-    console.log('others', others);
-
     const doMove = (direction) => {
         let payload = {
             userId: data.user,
@@ -22,32 +20,48 @@ export const Room = ({ data }) => {
         }
         switch (direction) {
             case 'left':
-                payload.x = myPosition.x > 1 ? myPosition.x - 1 : 1;
-                payload.orientation = 'left';
-                payload.y = myPosition.y;
-                peerVideoConnection.updateUserMovement(payload);
+                peerVideoConnection.updateUserMovementChallenge('left');
                 break;
             case 'right':
-                payload.x = myPosition.x < 8 ? myPosition.x + 1 : 8;
-                payload.orientation = 'right';
-                payload.y = myPosition.y;
-                peerVideoConnection.updateUserMovement(payload);
+                peerVideoConnection.updateUserMovementChallenge('right');
                 break;
             case 'up':
-                payload.x = myPosition.x;
-                payload.orientation = 'back';
-                payload.y = myPosition.y > 1 ? myPosition.y - 1 : 1;
-                peerVideoConnection.updateUserMovement(payload);
+                peerVideoConnection.updateUserMovementChallenge('up');
                 break;
             case 'down':
-                payload.x = myPosition.x;
-                payload.orientation = 'front';
-                payload.y = myPosition.y < 8 ? myPosition.y + 1 : 8;
-                peerVideoConnection.updateUserMovement(payload);
+                peerVideoConnection.updateUserMovementChallenge('down');
                 break;
             default:
                 break;
         }
+        // switch (direction) {
+        //     case 'left':
+        //         payload.x = myPosition.x > 1 ? myPosition.x - 1 : 1;
+        //         payload.orientation = 'left';
+        //         payload.y = myPosition.y;
+        //         peerVideoConnection.updateUserMovement(payload);
+        //         break;
+        //     case 'right':
+        //         payload.x = myPosition.x < 8 ? myPosition.x + 1 : 8;
+        //         payload.orientation = 'right';
+        //         payload.y = myPosition.y;
+        //         peerVideoConnection.updateUserMovement(payload);
+        //         break;
+        //     case 'up':
+        //         payload.x = myPosition.x;
+        //         payload.orientation = 'top';
+        //         payload.y = myPosition.y > 1 ? myPosition.y - 1 : 1;
+        //         peerVideoConnection.updateUserMovement(payload);
+        //         break;
+        //     case 'down':
+        //         payload.x = myPosition.x;
+        //         payload.orientation = 'bottom';
+        //         payload.y = myPosition.y < 8 ? myPosition.y + 1 : 8;
+        //         peerVideoConnection.updateUserMovement(payload);
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
 
     if (!userMediaStream) {
@@ -65,7 +79,7 @@ export const Room = ({ data }) => {
 
             <div className="user">
                 <div>
-                    <MyPosition position={myPosition} videoRef={localVideoRef} peerVideoConnection={peerVideoConnection} data={data} />
+                    <MyPosition position={myPosition} videoRef={localVideoRef} peerVideoConnection={peerVideoConnection} data={data} connectedUsers={connectedUsers}/>
                 </div>
                 <div className="actions">
                     <button type="button" onClick={e => doMove('left')}>Left</button>
@@ -76,7 +90,7 @@ export const Room = ({ data }) => {
                     <button type="button" onClick={e => doMove('right')}>right</button>
                 </div>
             </div>
-            <div className="others">
+            <div className="actions">
                 {others?.map((p, index) => <UserPosition key={index} position={p} />)}
             </div>
         </div>
